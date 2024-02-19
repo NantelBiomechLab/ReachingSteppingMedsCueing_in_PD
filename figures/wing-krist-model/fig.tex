@@ -1,0 +1,160 @@
+\documentclass[,dvipsnames]{article}
+\usepackage{geometry}
+\geometry{
+    papersize={190mm,100mm},
+    left=0mm,
+    right=0mm,
+    top=0mm,
+    bottom=0mm,
+    headheight=0mm,
+}
+\usepackage{fontspec}
+\setmainfont{Noto Sans}
+
+\usepackage{tikz}
+\usetikzlibrary {arrows.meta} 
+\usetikzlibrary {positioning}
+
+%%% standard math packages for equations:
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\usepackage{annotate-equations}
+\usepackage{pgfmath}
+\usepackage{ifthen}
+
+\DeclareMathOperator{\E}{\mathbb{E}}
+\definecolor{Gray}{HTML}{BBBBBB}
+\definecolor{LightBlue}{HTML}{66CCEE}
+\definecolor{Blue}{HTML}{4070A0}
+\definecolor{BrightPink}{HTML}{B33644}
+\definecolor{Magenta}{HTML}{AA3377}
+\definecolor{Gold}{HTML}{CCBB44}
+\definecolor{Green}{HTML}{228833}
+
+\begin{document}
+
+\begin{figure}[ht]
+% \centering
+\advance\leftskip2.5em
+\begin{tikzpicture}[scale=1.5]
+    \fill[Gray!25]      (-4.1,.5em) rectangle +(11,-3.05em); % Unobserved area
+    \fill[LightBlue!20] (-4.1,-2.55em) rectangle +(11,-3.3em); % Observed area
+
+    \draw (-3.05,-0.6em) node[anchor=north east] {\scshape Trigger};
+    \draw (-2.75,-2.62em) node[anchor=north east] {\scshape Response};
+    
+    \draw (6.9,-2.55em) node[anchor=south east] {\scshape Unobserved};
+    \draw (6.9,-5.85em) node[anchor=south east] {\scshape Observed};
+
+    \draw[very thick, arrows={-{Stealth[round]}}] (-4.2,-.5em) -- +(11.3,0) node[right=0.25em] {\scshape Time};
+
+    \foreach \c/\d/\cj/\dj/\l/\cjr/\djr in {-3/0.3/-1/-2/3/0/1, 0.0/0.7//-1/3.9/0/0, 3.9/0.5/+1//2.8/1/0} {
+        % \settowidth{\w}{$C_{j\j}$}
+        % \pgfmathparse{\w/2}
+        \node (C) at (\c cm + \l cm/2,0) [rectangle] {$C_{j\cj}$};
+        \draw[arrows={{Straight Barb[round,width=3pt]}-}] (\c+.05,0em) -- (C);
+        \ifthenelse{\cjr=1}
+            {\draw[arrows={{Circle[sep,length=1pt] . Circle[sep,length=1pt] .Circle[sep,length=1pt] . Circle[sep,length=0pt]}-}] (\c+\l-.05,0em) -- (C);}
+            {\draw[arrows={{Straight Barb[round,width=3pt]}-}] (\c+\l-.05,0em) -- (C);}
+        ;
+
+        \draw[ultra thick, arrows={-{Stealth[round]}}] (\c,0.1) -- +(0,-1.8em); % clock trigger instance arrow
+
+        \draw[ultra thick, arrows={-{Stealth[round]}}] (\c+\d,0.1-2.0em) -- +(0,-1.5em); % motor delay response arrow
+
+        % Motor delay responses
+        \draw                                                  (\c,       0.1-2.4em) -- +(0,.4em); % vertical bound line
+        \draw[arrows={-{Straight Barb[length=2pt,width=2pt]}}] (\c-.1,    0.1-2.2em) -- +(.1,0); % arrows
+        \draw[arrows={{Straight Barb[length=2pt,width=2pt]}-}] (\c+\d+.02,0.1-2.2em) -- +(.1,0); % arrows
+
+        \ifthenelse{\djr = 1}
+            {\draw (\c+\d+.02, 0.1-2.25em) node[right=0.25em] {$\scriptstyle D_{j\dj}$};}
+            {\draw (\c+\d/2, 0.1-2.25em) node {$\scriptstyle D_{j\dj}$};}
+        ;
+
+        \draw (\c,0.1-1.6em) -- +(\d,-.3em); % diagonal cue to delay line
+        \draw (\c+\d,0.1-4.2em) -- +(0,.5em); % IRI vertical bound line
+    }
+
+    \node (Ij1) at (-1.1,0.1-3.95em) [rectangle] {$I_{j-1}$};
+    \draw[arrows={-{Straight Barb[round,width=3pt]}}] (Ij1) -- +(-1.6+.05,0);
+    \draw[arrows={-{Straight Barb[round,width=3pt]}}] (Ij1) -- +(1.8-.05,0);
+
+    \setlength{\abovedisplayskip}{0pt}
+    \setlength{\belowdisplayskip}{0pt}
+
+    \node [rectangle, text width=3cm,  above right=-4.84ex and 3.25cm of Ij1.north east] (eq_ij) {
+        \renewcommand{\eqnhighlightheight}{}
+        \renewcommand{\eqnhighlightshade}{35}
+        \renewcommand{\eqnannotateshade}{100}
+        \begin{equation*}
+            I_{j} = 
+            \eqnmarkbox[Blue]{c}{C_{j}} +
+            \eqnmarkbox[Magenta]{d1}{D_{j}} -
+            \eqnmarkbox[Magenta]{d2}{D_{j-1}}
+        \end{equation*}
+        \annotate[yshift=-.71em]{below,left}{c}{Internal clock interval}
+        \annotatetwo[yshift=-.75em]{below, label below}{d1}{d2}{Motor delays}
+    };
+    \coordinate[right=0em of eq_ij.west] (eq_ij_left);
+    \coordinate[left=-1.7em of eq_ij.east] (eq_ij_right);
+    \draw[arrows={{Straight Barb[round,width=3pt]}-}] ++(0.7+.05,0.1-3.95em) coordinate(a) -- (a -| eq_ij_left);
+    \draw[arrows={{Straight Barb[round,width=3pt]}-}] ++(4.4-.05,0.1-3.95em) coordinate(a) -- (a -| eq_ij_right);
+
+    \renewcommand{\eqnhighlightshade}{19}
+    \draw (-4.0,-2.5) node [rectangle, text width=5cm, anchor=north west] {
+        \renewcommand{\eqnhighlightheight}{}
+        \renewcommand{\eqnannotateshade}{100}
+        \begin{flalign}
+        \eqnmarkbox[Blue]{p1}{\rho_{I}(1)} &= 
+        \frac{
+            \eqnmarkbox[BrightPink]{g1}{\gamma_{I}(1)}
+        }{
+            \eqnmarkbox[Magenta]{g0}{\gamma_{I}(0)}
+        }
+        \\[6.5ex]
+        \sigma_{D}^{2} &= -\gamma_{I}(1) \tag{4}
+        \end{flalign}
+        \annotate[yshift=0.75em]{above,left}{p1}{lag(1) correlation}
+        \annotate[yshift=.75em]{above}{g1}{lag(1) covariance}
+        \annotate[yshift=-.5em]{below}{g0}{lag(0) covariance}
+    };
+
+    \draw (0.75,-2.5) node [rectangle, text width=8cm, anchor=north west] {
+        \renewcommand{\eqnhighlightheight}{}
+        \renewcommand{\eqnannotateshade}{105}
+        \begin{flalign}
+            \gamma_{I}(1) &= 
+                \eqnmarkbox[Magenta]{E}{\!\E\!}\!\left[ (I_{j} - 
+                \eqnmarkbox[Blue]{mu1}{\mu_{I}}
+                )(I_{j-1} - 
+                \eqnmarkbox[Blue]{mu2}{\mu_{I}}
+                )  \right] = -
+                \eqnmarkbox[Green]{varD}{\sigma_{D}^{2}} \\
+            \gamma_{I}(0) &= \E\! \left[ \left(I_{j} - \mu_{I}\right)\left(I_{j} - \mu_{I}\right)  \right] = \sigma_{I}^{2} \\
+                &= 
+                \eqnmarkbox[BrightPink]{varC}{\sigma_{C}^{2}}
+                + 2\sigma_{D}^{2} \nonumber
+            \\[2.75ex]
+            \sigma_{C}^{2} &= \gamma_{I}(0) + 2\gamma_{I}(1) \tag{5}
+        \end{flalign}
+        \annotate[yshift=0.75em]{above,left}{E}{Expected value}
+        \annotatetwo[yshift=0.75em]{above,right}{mu1}{mu2}{Average response interval}
+        \annotate[yshift=0.75em]{right}{varD}{Motor delay variance}
+        \annotate[yshift=0.25em,xshift=4.0em]{below,right}{varC}{Internal clock variance}
+    };
+
+\end{tikzpicture}
+\vspace{-3ex}
+\caption{
+    \footnotesize
+    Schematic and model for the Wing-Kristofferson model of the timing of repetitive, discrete motor responses. It is assumed that an internal clock process generates trigger pulses at intervals $C_j$. A response occurs an independent delay, $D_j$,  after each trigger to account for e.g. neuromuscular transmission time, movement time, etc. Neither $C_j$ or $D_j$ are directly observable from response timing, however, the clock and motor variance, $\sigma_C^2$ and $\sigma_D^2$, can be estimated from the
+    characteristics of the interresponse intervals $I_j$. The lag one serial correlation $\rho_I(1)$, which measures dependence of consecutive interresponse intervals, can be negative without explicit negative feedback in the system. For example, a zero variance internal clock (e.g. if perfectly following an external metronome cue, and generally when $\sigma_D^2 \gg \sigma_C^2$) would lead to $\rho_I(1)=-1/2$. See Wing and Kristofferson (1973) for derivations and further
+    details.
+}
+\end{figure}
+
+\end{document}
+
