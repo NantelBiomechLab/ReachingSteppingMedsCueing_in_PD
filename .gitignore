@@ -1,0 +1,8 @@
+*.png
+*.aux
+*.fls
+*.log
+*.fdb_latexmk
+
+.ipynb_checkpoints/
+.virtual_documents/
