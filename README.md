@@ -1,6 +1,5 @@
 # Reaching and stepping respond differently to medication and cueing in Parkinson's disease
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6835767.svg)](https://doi.org/10.5281/zenodo.6835767)
 
 This results of this research are fully reproducible using the source code, Jupyter
 notebooks, and raw data contained within this repository. Please see the paper for a full
@@ -60,7 +59,8 @@ or if using a system Jupyter installation, start Jupyter from your favorite avai
 
 # Bibliography
 
-Cantú, H., Côté, J. N., & Nantel, J. (2018). A new method based on quiet stance baseline is more effective in identifying freezing in Parkinson’s disease. PLOS ONE, 13(11), e0207945. https://doi.org/10.1371/journal.pone.0207945
-Cantú, H., Nantel, J., Millán, M., Paquette, C., & Côté, J. N. (2019). Abnormal Muscle Activity and Variability Before, During, and After the Occurrence of Freezing in Parkinson’s Disease. Frontiers in Neurology, 10. https://doi.org/10.3389/fneur.2019.00951
+- Cantú, H., Côté, J. N., & Nantel, J. (2018). A new method based on quiet stance baseline is more effective in identifying freezing in Parkinson’s disease. PLOS ONE, 13(11), e0207945. https://doi.org/10.1371/journal.pone.0207945
+
+- Cantú, H., Nantel, J., Millán, M., Paquette, C., & Côté, J. N. (2019). Abnormal Muscle Activity and Variability Before, During, and After the Occurrence of Freezing in Parkinson’s Disease. Frontiers in Neurology, 10. https://doi.org/10.3389/fneur.2019.00951
 
 
