@@ -1,5 +1,6 @@
 # Reaching and stepping respond differently to medication and cueing in Parkinson's disease
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10685596.svg)](https://doi.org/10.5281/zenodo.10685596)
 
 This results of this research are fully reproducible using the source code, Jupyter
 notebooks, and raw data contained within this repository. Please see the paper for a full
